@@ -1,0 +1,356 @@
+<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>/// (너 먹구름 비) - EP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand&family=Nanum+Gothic&display=swap">
+    <style>
+        h1 { font-family: 'Nanum Myeongjo', serif;color: #d0e1ff;text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);font-weight: 700; }
+        h2 { font-family: 'Nanum Myeongjo', serif;color: #d0e1ff;}
+        body { font-family: 'Nanum Myeongjo', 'Nanum Gothic', sans-serif;background:
+        linear-gradient(to bottom right, rgba(26,29,46,0.9), rgba(75,227,255,0.3), rgba(255,122,105,0.3)),
+        url('https://cdn.pixabay.com/photo/2017/08/18/13/04/glass-2654887_1280.jpg');
+    background-size: cover;
+    background-repeat: repeat;
+    background-attachment: fixed;
+    color: #f5f5f5; }
+        p { margin: 4px 0; line-height: 1.2; font-size: 14px; color: #d0e1ff; }
+        li { font-family: 'Nanum Myeongjo', serif;font-size: 18px;cursor: pointer;color: #d0e1ff;transition: 0.3s ease; }
+        li:hover { text-decoration: underline; color: #444;color: #ffffff;transform: translateX(5px);transition: 0.3s ease; }
+        #player {
+            margin-top: 20px;
+            width: 200%;
+            background-color: #eee;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .album-img {
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease;
+        }
+        #lyrics-box {
+            position: fixed;
+            top: 100px;
+            right: 40px;
+            width: 320px;
+            padding: 20px;
+            background: rgba(22, 28, 45, 0.6);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3); 
+            max-height: 400px;
+            overflow-y: auto;
+            font-size: 14px;
+            color: #e3e8f0; 
+            font-family: 'Courier New', monospace;
+            white-space: pre-line;
+            backdrop-filter: blur(4px);
+        }
+        .playing {
+            font-weight: bold;
+            color: #63b3ed !important;
+        }
+        .playing::after {
+            content: " ♫";
+            color: #63b3ed;
+        }
+
+    </style>
+</head>
+<body>
+    <h1><b>/// (너 먹구름 비) - EP</b> - 헤이즈</h1>
+    <hr>
+    <table>
+        <tr>
+            <td>
+                <img class="album-img" src="https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/1b/c1/05/1bc105f3-72f2-03be-0d05-6e302f74d757/8809534465840_Cover.jpg/600x600bf-60.jpg">
+                <p>발매일: 2017년 6월 27일</p>
+                <p>5트랙, 15:32</p>
+                <p>2017 Stone Music Entertainment, Studio blu</p>
+            </td>
+            <td style="vertical-align: top;">
+                <h2><b>Track List</b></h2>
+                <ol>
+                    <li onclick="playTrack('youcloudsrain/dont_know_you.mp3')">널 너무 모르고</li>
+                    <li onclick="playTrack('youcloudsrain/dark_clouds.mp3')">먹구름 (feat. nafla)</li>
+                    <li onclick="playTrack('youcloudsrain/rainin_with_u.mp3')">rainin' with u</li>
+                    <li onclick="playTrack('youcloudsrain/you_clouds_rain.mp3')">비도 오고 그래서 (feat. 신용재)</li>
+                    <li onclick="playTrack('youcloudsrain/star_rain_ver.mp3')">저 별 (rain ver.)</li>
+                </ol>
+                <audio id="player" controls style="margin-top: 20px; width: 100%;"></audio>
+            </td>
+        </tr>
+    </table>
+    <div id="lyrics-box">
+        <p style="color: #aaa;">☔ 가사를 보려면 트랙을 클릭하세요</p>
+    </div>
+
+    <script>
+        const player = document.getElementById('player');
+        const lyricsBox = document.getElementById('lyrics-box');
+        const listItems = document.querySelectorAll("ol li");
+
+        const tracks = [
+            "dont_know_you.mp3", "dark_clouds.mp3", "rainin_with_u.mp3", "you_clouds_rain.mp3",
+            "star_rain_ver.mp3"
+        ];
+
+        const lyrics = {
+            "dont_know_you.mp3": `이제는 알아 말 안 해도\n
+                                    왜 이리도 쉬운 걸 몰랐을까\n
+                                    이 옷들을 고를 시간에\n
+                                    30분 더 널 안아줄걸\n
+                                    난 몰랐어 너의 맘의 크기도\n
+                                    옷 사이즈는 알았어도\n
+                                    널 웃음 짓게 하는 법도 까먹고\n
+                                    또 헛짚었어\n
+                                    차라리 내게 화냈다면\n
+                                    쌓이는 것 없이 말했다면\n
+                                    이렇게 네가 차갑지는 않았을걸\n
+                                    끝이 나고서야 깨닫는 걸\n
+                                    널 너무 모르고\n
+                                    네 맘도 모르고\n
+                                    네가 나에게서 멀어지고 있는 줄도\n
+                                    난 정말 모르고\n
+                                    네 선물 고르고\n
+                                    네가 원했던 건 이런 게 아니었던걸\n
+                                    i wanna be a good girl\n
+                                    받기만 하는 거 말고\n
+                                    주는 걸 하고 싶었고\n
+                                    이제 난 돈도 벌었는데\n
+                                    나를 보는 너의 심장은 굼떠\n
+                                    변명처럼 들리겠지만\n
+                                    부재중일 때도 나는\n
+                                    변하고 있던 거야 너를 위해\n
+                                    능력 있고 인정받는 girl friend\n
+                                    효도만큼 절실한 꿈이었는데\n
+                                    떠나면 어떡해\n
+                                    난 너한테 준게 하나 없는데\n
+                                    너만 주고 감 어떡해\n
+                                    너한테 남은 내 흔적은 없을 텐데\n
+                                    너는 뭐를 보며 나를 기억해\n
+                                    나를 추억해\n
+                                    돌아봤음 해 너를 부를 때\n
+                                    네가 내게 준 맘을\n
+                                    전부 갚을 수 있게\n
+                                    행복을 줄 수 있게\n
+                                    널 너무 모르고\n
+                                    네 맘도 모르고\n
+                                    네가 나에게서 멀어지고 있는 줄도\n
+                                    난 정말 모르고\n
+                                    네 선물 고르고\n
+                                    네가 원했던 건 이런 게 아니었던걸\n
+                                    i can't live\n
+                                    without your love love\n
+                                    i can't live without your love\n
+                                    널 너무 모르고\n
+                                    네 맘도 모르고\n
+                                    네가 나에게서 멀어지고 있는 줄도\n
+                                    난 정말 모르고\n
+                                    네 선물 고르고\n
+                                    네가 원했던 건 이런 게 아니었던걸`,
+            "dark_clouds.mp3": `맑아졌으면 해\n
+                                    아님 비라도 시원하게 퍼부어줘\n
+                                    흐리기만 해 all day\n
+                                    먹구름이 나를 따라서 떠다녀\n
+                                    친구의 전화도 또 모른 척하고\n
+                                    하루가 지나서야 답장해\n
+                                    기분은 좀 어때\n
+                                    물어볼게 뻔해\n
+                                    억지 미소를 장착해\n
+                                    난 원래 이래야만 하는지\n
+                                    슬픈 역할을 배정받은 듯이\n
+                                    나는 아무 짓도 안 했는데\n
+                                    나만 오면 왜\n
+                                    우울 우울해질까 이 공간이\n
+                                    억지로 울어야 해\n
+                                    드라마 주인공처럼\n
+                                    친구들이 날 위로하고\n
+                                    BGM이 깔리네\n
+                                    전부 잊고 있었는데\n
+                                    맑았던 내 맘은 어느새\n
+                                    먹구름이 머리 위에\n
+                                    내 미소를 가리려 해\n
+                                    차라리 쏟아 내줄래\n
+                                    뚝 뚝 뚝 뚝 뚜욱\n
+                                    fresh air fresh breeze\n
+                                    난 지금 잘 살고 있어\n
+                                    먹구름 가득한 하늘이\n
+                                    맑아질 때쯤\n
+                                    주위가 내 신경을 써\n
+                                    I’m cool I’m new\n
+                                    이젠 혼자 지내는 게 더 편해졌어\n
+                                    친구들 만나면 불편해\n
+                                    괜찮냐는 시덥잖은\n
+                                    얘기들만 해서\n
+                                    now I'm fine\n
+                                    don't ask about her\n
+                                    그거 말고 다른 얘기 많잖어\n
+                                    왜 내 빈 잔만 계속해 따러\n
+                                    몇 번 말해야지 알아들어\n
+                                    나 진짜 괜찮어\n
+                                    맑아졌네 이제\n
+                                    한숨 쉬기가 좀 편해 이제\n
+                                    감정을 다 써버려서\n
+                                    무덤덤해\n
+                                    날 그만 걱정해줘\n
+                                    먹구름이 머리 위에\n
+                                    내 미소를 가리려 해\n
+                                    차라리 쏟아 내줄래\n
+                                    뚝 뚝 뚝 뚝 뚜욱\n
+                                    실은 너무 참아온 듯해\n
+                                    I wanna cry I wanna cry\n
+                                    I wanna cry I wanna cry\n
+                                    나 땜에 내 주변까지 어두워지는 게\n
+                                    알고 보니 그 먹구름이 나였네\n
+                                    먹구름이 머리 위에\n
+                                    내 미소를 가리려 해\n
+                                    차라리 쏟아 내줄래\n
+                                    뚝 뚝 뚝 뚝 뚜욱`,
+            "rainin_with_u.mp3": ``,
+            "you_clouds_rain.mp3": `비도 오고 그래서\n
+                                    네 생각이 났어\n
+                                    생각이 나서 그래서\n
+                                    그랬던거지\n
+                                    별 의미 없지\n
+                                    오늘은 오랜만에\n
+                                    네 생각을 하는 날이야\n
+                                    일부러 난 너와 내가\n
+                                    담겨 있는 노랠 찾아\n
+                                    오늘은 슬프거나\n
+                                    우울해도 괜찮은 맘이야\n
+                                    어차피 이 밤이\n
+                                    다 지나가면은 별 수도 없이\n
+                                    난 또 한 동안은 널 잊고 살테니까\n
+                                    내 가슴 속에만\n
+                                    품고 살아갈테니까\n
+                                    비도 오고 그래서\n
+                                    네 생각이 났어\n
+                                    생각이 나서 그래서\n
+                                    그랬던거지\n
+                                    별 의미 없지\n
+                                    우산 속에 숨어서\n
+                                    네 집을 지나쳐\n
+                                    그 날의 감정을\n
+                                    다시 느껴보고파서\n
+                                    떨어지는 빗물과\n
+                                    시계 초침 소리가\n
+                                    방 안 가득 채우면\n
+                                    그 때로 난 돌아가\n
+                                    차라리 난 이 비가\n
+                                    그치지 않았음 해\n
+                                    매일 기억 속에 살 수 있게\n
+                                    나 널 아프게 했던\n
+                                    못난 놈이니까\n
+                                    널 다시 품에 안을\n
+                                    자격도 없으니까\n
+                                    비도 오고 그래서\n
+                                    네 생각이 났어\n
+                                    생각이 나서 그래서\n
+                                    그랬던거지\n
+                                    별 의미 없지\n
+                                    우산 속에 숨어서\n
+                                    네 집을 지나쳐\n
+                                    그 날의 감정을\n
+                                    다시 느껴보고파서\n
+                                    우리에게 주어진 행복을\n
+                                    너무 빨리 쓴 것 같아\n
+                                    거기까지 인 것 같아\n
+                                    이 비가 그칠 땐 각자 있던 곳에서\n
+                                    다시 살아가야만 해\n
+                                    비도 오고 그래서\n
+                                    네 생각이 났어\n
+                                    생각이 나서 그래서\n
+                                    그랬던거지\n
+                                    별 의미 없지\n
+                                    우산 속에 숨어서\n
+                                    네 집을 지나쳐\n
+                                    그 날의 감정을\n
+                                    다시 느껴보고파서`,
+            "star_rain_ver.mp3": `혹시 저 별도 나를 보고 있을까\n
+                                    아니 날 보고 있지 않을까\n
+                                    저 별도 나를 보고 있을까\n
+                                    아니 날\n
+                                    지금 날 찾고 있지 않을까\n
+                                    아니 날 피해가고 있을까\n
+                                    아니 날\n
+                                    예 으으음\n
+                                    오늘따라 넌 더 희미해\n
+                                    그래서 이 밤은 내겐 무의미해\n
+                                    어두운 밤이 지나 아침이 온대도\n
+                                    구름에 가려 보이지 않을 때도\n
+                                    너 그 자리에 있단 걸 난 알아도\n
+                                    넌 내가 보이지 않을 때마다\n
+                                    항상 불안해했으니까\n
+                                    저 구름이 이제 비가 되어서\n
+                                    내리기만을 나는 기도해\n
+                                    혹시 저 별도 나를 보고 있을까\n
+                                    아니 날 보고 있지 않을까\n
+                                    저 별도 나를 보고 있을까\n
+                                    아니 날\n
+                                    지금 날 찾고 있지 않을까\n
+                                    아니 날 피해가고 있을까\n
+                                    아니 날\n
+                                    예 으으음\n
+                                    너만큼 반짝이는 게 또 있을까\n
+                                    너무 멀어서\n
+                                    내 노래가 들리지 않을까\n
+                                    내가 보고 있는 게\n
+                                    지금의 너가 맞을까\n
+                                    매일 밤 너를 보며\n
+                                    두 손 모은 나를 봤을까\n
+                                    너도 나를 봤을까\n
+                                    아님 피해갔을까\n
+                                    내 품에 떨어지길 기도해\n
+                                    my shooting star\n
+                                    다시는 놓치지 않을 텐데\n
+                                    my shining star\n
+                                    이 시간들은 그저 과정일 뿐이야\n
+                                    혹시 저 별도 나를 보고 있을까\n
+                                    아니 날 보고 있지 않을까\n
+                                    저 별도 나를 보고 있을까\n
+                                    아니 날\n
+                                    지금 날 찾고있지 않을까\n
+                                    아니 날 피해가고 있을까\n
+                                    아니 날\n
+                                    예 으으음\n
+                                    내가 할 수 있는 건 그대\n
+                                    이 순간에도 날 보고 있다고 믿는 것\n
+                                    그래서 난 네가 떠난 이후로\n
+                                    스쳐간 흔적도 없지 그 누구도\n
+                                    그런데 왜 넌 항상 보여도\n
+                                    손 닿을 수도 안을 수도 없는 걸\n
+                                    혹시 저 별도 나를 보고 있을까\n
+                                    아니 날 보고 있지 않을까\n
+                                    저 별도 나를 보고 있을까\n
+                                    아니 날\n
+                                    지금 날 찾고 있지 않을까\n
+                                    아니 날 피해가고 있을까\n
+                                    아니 날`,
+        };
+
+        let currentIndex = 0;
+
+        function playTrack(path) {
+            const filename = path.split("/").pop();
+            player.src = path;
+            player.play();
+            currentIndex = tracks.indexOf(filename);
+
+            lyricsBox.innerText = lyrics[filename] || "(가사 준비 중)";
+
+            listItems.forEach((li) => li.classList.remove("playing"));
+            if (listItems[currentIndex]) {
+                listItems[currentIndex].classList.add("playing");
+            }
+        }
+
+        player.addEventListener("ended", () => {
+            currentIndex++;
+            if (currentIndex < tracks.length) {
+                playTrack("youcloudsrain/" + tracks[currentIndex]);
+            }
+        });
+    </script>
+</body>
+</html>
